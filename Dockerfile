@@ -31,20 +31,20 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean
 
 # Download and install VMD
-RUN wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.4a52.bin.LINUXAMD64-CUDA8-OSPRay.tar.gz && \
-    tar -xvzf vmd-1.9.4a52.bin.LINUXAMD64-CUDA8-OSPRay.tar.gz && \
-    rm vmd-1.9.4a52.bin.LINUXAMD64-CUDA8-OSPRay.tar.gz && \
-    cd VMD-v1.9.4a52 && \
+RUN wget https://www.ks.uiuc.edu/Research/vmd/vmd-1.9.3/files/final/vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz && \
+    tar -xvzf vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz && \
+    rm vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz && \
+    cd VMD-v1.9.3 && \
     ./configure  # This will configure VMD for your system
 
 # Set the default working directory
-WORKDIR /VMD-v1.9.4a52
+WORKDIR /VMD-v1.9.3
 
 # Install VMD (make sure you install it without GUI if you want to run headlessly)
 RUN ./install
 
 # Set VMD environment variables
-ENV VMDINSTALLDIR=/VMD-v1.9.4a52
+ENV VMDINSTALLDIR=/VMD-v1.9.3
 ENV PATH="$VMDINSTALLDIR/bin:$PATH"
 ENV LD_LIBRARY_PATH="$VMDINSTALLDIR/lib:$LD_LIBRARY_PATH"
 ENV VMD_NOGUI=1
@@ -57,6 +57,3 @@ ENTRYPOINT ["vmd", "-dispdev", "text"]
 
 # Expose a port (optional, if you want to connect to the container via other means)
 EXPOSE 8080
-
-# Start VMD in headless mode by default
-CMD ["-e", "your_script.tcl"]
